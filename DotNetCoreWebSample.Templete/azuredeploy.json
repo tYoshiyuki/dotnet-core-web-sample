@@ -146,16 +146,11 @@
     },
     {
       "apiVersion": "2015-08-01",
-      "name": "[variables('webSiteName')]",
-      "type": "Microsoft.Web/sites",
-      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverFarms/', parameters('hostingPlanName'))]"
       ],
-      "tags": {
-        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty",
-        "displayName": "Website"
-      },
+      "location": "[resourceGroup().location]",
+      "name": "[variables('webSiteName')]",
       "properties": {
         "name": "[variables('webSiteName')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
@@ -174,8 +169,35 @@
               "type": "SQLServer"
             }
           }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]",
+            "[resourceId('Microsoft.Insights/components', variables('applicationInsightsName'))]",
+            "Microsoft.ApplicationInsights.AzureWebSites"
+          ],
+          "name": "appsettings",
+          "properties": {
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(concat('microsoft.insights/components/', variables('applicationInsightsName'))).InstrumentationKey]"
+          },
+          "type": "config"
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]"
+          ],
+          "name": "Microsoft.ApplicationInsights.AzureWebSites",
+          "properties": {},
+          "type": "siteextensions"
         }
-      ]
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty",
+        "displayName": "Website"
+      },
+      "type": "Microsoft.Web/sites"
     },
     {
       "apiVersion": "2014-04-01",
@@ -190,7 +212,7 @@
         "displayName": "AppInsightsComponent"
       },
       "properties": {
-        "ApplicationId": "[variables('applicationInsightsName')]"
+        "ApplicationId": "[variables('webSiteName')]"
       }
     }
   ]
