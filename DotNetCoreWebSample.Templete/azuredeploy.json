@@ -2,6 +2,21 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "hostingPlanName": {
+      "type": "string"
+    },
+    "webSiteName": {
+      "type": "string"
+    },
+    "sqldbName": {
+      "type": "string"
+    },
+    "sqlserverName": {
+      "type": "string"
+    },
+    "applicationInsightsName": {
+      "type": "string"
+    },
     "skuName": {
       "type": "string",
       "defaultValue": "F1",
@@ -72,15 +87,10 @@
     }
   },
   "variables": {
-    "hostingPlanName": "dotnet-core-websample-serviceplan",
-    "webSiteName": "dotnet-core-websample-webapps",
-    "sqldbName": "dotnet-core-websample-sqldb",
-    "sqlserverName": "dotnet-core-websample-sqlserver",
-    "applicationInsightsName": "dotnet-core-websample-ai"
   },
   "resources": [
     {
-      "name": "[variables('sqlserverName')]",
+      "name": "[parameters('sqlserverName')]",
       "type": "Microsoft.Sql/servers",
       "location": "[resourceGroup().location]",
       "tags": {
@@ -93,7 +103,7 @@
       },
       "resources": [
         {
-          "name": "[variables('sqldbName')]",
+          "name": "[parameters('sqldbName')]",
           "type": "databases",
           "location": "[resourceGroup().location]",
           "tags": {
@@ -101,7 +111,7 @@
           },
           "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))]"
+            "[resourceId('Microsoft.Sql/servers/', parameters('sqlserverName'))]"
           ],
           "properties": {
             "edition": "[parameters('edition')]",
@@ -114,7 +124,7 @@
           "type": "firewallrules",
           "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))]"
+            "[resourceId('Microsoft.Sql/servers/', parameters('sqlserverName'))]"
           ],
           "location": "[resourceGroup().location]",
           "name": "AllowAllWindowsAzureIps",
@@ -127,7 +137,7 @@
     },
     {
       "apiVersion": "2015-08-01",
-      "name": "[variables('hostingPlanName')]",
+      "name": "[parameters('hostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
       "location": "[resourceGroup().location]",
       "tags": {
@@ -138,19 +148,19 @@
         "capacity": "[parameters('skuCapacity')]"
       },
       "properties": {
-        "name": "[variables('hostingPlanName')]"
+        "name": "[parameters('hostingPlanName')]"
       }
     },
     {
       "apiVersion": "2015-08-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverFarms/', variables('hostingPlanName'))]"
+        "[resourceId('Microsoft.Web/serverFarms/', parameters('hostingPlanName'))]"
       ],
       "location": "[resourceGroup().location]",
-      "name": "[variables('webSiteName')]",
+      "name": "[parameters('webSiteName')]",
       "properties": {
-        "name": "[variables('webSiteName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+        "name": "[parameters('webSiteName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       },
       "resources": [
         {
@@ -158,11 +168,11 @@
           "type": "config",
           "name": "connectionstrings",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
+            "[resourceId('Microsoft.Web/Sites/', parameters('webSiteName'))]"
           ],
           "properties": {
             "DefaultConnection": {
-              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('sqldbName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
+              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', parameters('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('sqldbName'), ';User Id=', parameters('administratorLogin'), '@', parameters('sqlserverName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
               "type": "SQLServer"
             }
           }
@@ -170,20 +180,20 @@
         {
           "apiVersion": "2015-08-01",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]",
-            "[resourceId('Microsoft.Insights/components', variables('applicationInsightsName'))]",
+            "[resourceId('Microsoft.Web/Sites', parameters('webSiteName'))]",
+            "[resourceId('Microsoft.Insights/components', parameters('applicationInsightsName'))]",
             "Microsoft.ApplicationInsights.AzureWebSites"
           ],
           "name": "appsettings",
           "properties": {
-            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(concat('microsoft.insights/components/', variables('applicationInsightsName'))).InstrumentationKey]"
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(concat('microsoft.insights/components/', parameters('applicationInsightsName'))).InstrumentationKey]"
           },
           "type": "config"
         },
         {
           "apiVersion": "2015-08-01",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', variables('webSiteName'))]"
+            "[resourceId('Microsoft.Web/Sites', parameters('webSiteName'))]"
           ],
           "name": "Microsoft.ApplicationInsights.AzureWebSites",
           "properties": {},
@@ -191,25 +201,25 @@
         }
       ],
       "tags": {
-        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', variables('hostingPlanName'))]": "empty",
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]": "empty",
         "displayName": "Website"
       },
       "type": "Microsoft.Web/sites"
     },
     {
       "apiVersion": "2014-04-01",
-      "name": "[variables('applicationInsightsName')]",
+      "name": "[parameters('applicationInsightsName')]",
       "type": "Microsoft.Insights/components",
       "location": "East US",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites/', variables('webSiteName'))]"
+        "[resourceId('Microsoft.Web/sites/', parameters('webSiteName'))]"
       ],
       "tags": {
-        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', variables('webSiteName'))]": "Resource",
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('webSiteName'))]": "Resource",
         "displayName": "AppInsightsComponent"
       },
       "properties": {
-        "ApplicationId": "[variables('webSiteName')]"
+        "ApplicationId": "[parameters('webSiteName')]"
       }
     }
   ]

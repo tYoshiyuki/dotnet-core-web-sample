@@ -4,6 +4,21 @@
   "parameters": {
     "administratorLogin": {
       "value": "coresqladmin"
+    },
+    "applicationInsightsName": {
+      "value": "dotnet-core-websample-ai"
+    },
+    "hostingPlanName": {
+      "value": "dotnet-core-websample-serviceplan"
+    },
+    "sqldbName": {
+      "value": "dotnet-core-websample-sqldb"
+    },
+    "sqlserverName": {
+      "value": "dotnet-core-websample-sqlserver"
+    },
+    "webSiteName": {
+      "value": "dotnet-core-websample-webapps"
     }
   }
 }
