@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCoreWebSample.Web", "DotNetCoreWebSample.Web\DotNetCoreWebSample.Web.csproj", "{B5C48E15-056C-4AD9-AA67-22497433175D}"
 EndProject
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "DotNetCoreWebSample.Templete", "DotNetCoreWebSample.Templete\DotNetCoreWebSample.Templete.deployproj", "{66D17B1D-896E-41A1-BD59-36A20BBC3E4F}"
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "DotNetCoreWebSample.Template", "DotNetCoreWebSample.Template\DotNetCoreWebSample.Template.deployproj", "{66D17B1D-896E-41A1-BD59-36A20BBC3E4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
