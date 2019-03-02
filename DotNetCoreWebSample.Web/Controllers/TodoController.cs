@@ -6,22 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DotNetCoreWebSample.Web.Models;
+using DotNetCoreWebSample.Web.Services;
 
 namespace DotNetCoreWebSample.Web.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class TodoController : Controller
     {
-        private readonly DotnetCoreWebSampleContext _context;
+        private readonly IToDoService _service;
 
-        public TodoController(DotnetCoreWebSampleContext context)
+        public TodoController(DotnetCoreWebSampleContext context, IToDoService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Todo
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Todo.ToListAsync());
+            return View(await _service.GetList());
         }
 
         // GET: Todo/Details/5
@@ -32,8 +34,7 @@ namespace DotNetCoreWebSample.Web.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.Todo
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var todo = await _service.Get(id.Value);
             if (todo == null)
             {
                 return NotFound();
@@ -49,16 +50,12 @@ namespace DotNetCoreWebSample.Web.Controllers
         }
 
         // POST: Todo/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description,CreatedDate")] Todo todo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(todo);
-                await _context.SaveChangesAsync();
+                await _service.Create(todo);
                 return RedirectToAction(nameof(Index));
             }
             return View(todo);
@@ -72,7 +69,7 @@ namespace DotNetCoreWebSample.Web.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.Todo.FindAsync(id);
+            var todo = await _service.Get(id.Value);
             if (todo == null)
             {
                 return NotFound();
@@ -81,10 +78,7 @@ namespace DotNetCoreWebSample.Web.Controllers
         }
 
         // POST: Todo/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,CreatedDate")] Todo todo)
         {
             if (id != todo.Id)
@@ -96,8 +90,7 @@ namespace DotNetCoreWebSample.Web.Controllers
             {
                 try
                 {
-                    _context.Update(todo);
-                    await _context.SaveChangesAsync();
+                    await _service.Edit(todo);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,8 +116,7 @@ namespace DotNetCoreWebSample.Web.Controllers
                 return NotFound();
             }
 
-            var todo = await _context.Todo
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var todo = await _service.Get(id.Value);
             if (todo == null)
             {
                 return NotFound();
@@ -135,18 +127,16 @@ namespace DotNetCoreWebSample.Web.Controllers
 
         // POST: Todo/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var todo = await _context.Todo.FindAsync(id);
-            _context.Todo.Remove(todo);
-            await _context.SaveChangesAsync();
+            var todo = await _service.Get(id);
+            await _service.Delete(todo);
             return RedirectToAction(nameof(Index));
         }
 
         private bool TodoExists(int id)
-        {
-            return _context.Todo.Any(e => e.Id == id);
+        {            
+            return _service.Exists(id);
         }
     }
 }

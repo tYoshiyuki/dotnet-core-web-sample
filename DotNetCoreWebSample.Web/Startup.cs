@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetCoreWebSample.Web.Models;
+using DotNetCoreWebSample.Web.Repositories;
+using DotNetCoreWebSample.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -47,8 +49,9 @@ namespace DotNetCoreWebSample
             });
 
             services.AddDbContext<DotnetCoreWebSampleContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IToDoService, ToDoService>();
+            services.AddTransient<ITodoRepository, TodoRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
