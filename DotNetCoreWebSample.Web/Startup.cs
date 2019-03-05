@@ -79,12 +79,6 @@ namespace DotNetCoreWebSample
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetService<DotnetCoreWebSampleContext>();
-                context.Database.Migrate();
-            }
         }
     }
 }
