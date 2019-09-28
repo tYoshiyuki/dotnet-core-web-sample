@@ -1,5 +1,3 @@
-using System;
-
 namespace DotNetCoreWebSample.Web.ViewModels
 {
     public class ErrorViewModel

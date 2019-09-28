@@ -19,6 +19,9 @@
     },
     "webSiteName": {
       "value": "dotnet-core-websample-webapps"
+    },
+    "administratorLoginPassword": {
+      "value": "Passpassword.1"
     }
   }
 }

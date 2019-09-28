@@ -25,16 +25,16 @@ namespace DotNetCoreWebSample.Web.Repositories
         Task<int> SaveAsync();
     }
 
-    abstract public class Repository<TEntity> : IRepository<TEntity>
+    public abstract class Repository<TEntity> : IRepository<TEntity>
         where TEntity : class
     {
-        protected readonly DotnetCoreWebSampleContext _db;
-        protected readonly DbSet<TEntity> _set;
+        protected readonly DotnetCoreWebSampleContext Db;
+        protected readonly DbSet<TEntity> Set;
 
         protected Repository(DotnetCoreWebSampleContext db)
         {
-            _db = db;
-            _set = _db.Set<TEntity>();
+            Db = db;
+            Set = Db.Set<TEntity>();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// <param name="entity"></param>
         public void Add(TEntity entity)
         {
-            _set.Add(entity);
+            Set.Add(entity);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// <param name="entity"></param>
         public void Update(TEntity entity)
         {
-            _set.Update(entity);
+            Set.Update(entity);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// <param name="keyValues"></param>
         public TEntity Find(params object[] keyValues)
         {
-            return _set.Find(keyValues);
+            return Set.Find(keyValues);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// <param name="keyValues"></param>
         public async Task<TEntity> FindAsync(params object[] keyValues)
         {
-            return await _set.FindAsync(keyValues);
+            return await Set.FindAsync(keyValues);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// <param name="predicate"></param>
         public IList<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
         {
-            return _set.Where(predicate).ToList();
+            return Set.Where(predicate).ToList();
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// <param name="predicate"></param>
         public async Task<IList<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await _set.Where(predicate).ToListAsync();
+            return await Set.Where(predicate).ToListAsync();
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// </summary>
         public IList<TEntity> Get()
         {
-            return _set.ToList();
+            return Set.ToList();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// </summary>
         public async Task<IList<TEntity>> GetAsync()
         {
-            return await _set.ToListAsync();
+            return await Set.ToListAsync();
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// </summary>
         public int GetCount()
         {
-            return _set.Count();
+            return Set.Count();
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// </summary>
         public async Task<int> GetCountAsync()
         {
-            return await _set.CountAsync();
+            return await Set.CountAsync();
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// <param name="entity"></param>
         public void Remove(TEntity entity)
         {
-            _set.Remove(entity);
+            Set.Remove(entity);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// </summary>
         public void Save()
         {
-            _db.SaveChanges();
+            Db.SaveChanges();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace DotNetCoreWebSample.Web.Repositories
         /// </summary>
         public async Task<int> SaveAsync()
         {
-            return await _db.SaveChangesAsync();
+            return await Db.SaveChangesAsync();
         }
     }
 }

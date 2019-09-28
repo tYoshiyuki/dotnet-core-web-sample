@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using DotNetCoreWebSample.Web.ViewModels;
+﻿using DotNetCoreWebSample.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Diagnostics;
 
 namespace DotNetCoreWebSample.Web.Controllers
 {

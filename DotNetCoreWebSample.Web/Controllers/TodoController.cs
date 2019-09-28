@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using DotNetCoreWebSample.Web.Models;
+﻿using DotNetCoreWebSample.Web.Models;
 using DotNetCoreWebSample.Web.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace DotNetCoreWebSample.Web.Controllers
 {
@@ -15,7 +12,7 @@ namespace DotNetCoreWebSample.Web.Controllers
     {
         private readonly IToDoService _service;
 
-        public TodoController(DotnetCoreWebSampleContext context, IToDoService service)
+        public TodoController(IToDoService service)
         {
             _service = service;
         }
