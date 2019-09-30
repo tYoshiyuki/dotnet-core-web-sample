@@ -1,10 +1,10 @@
-﻿using System;
-using DotNetCoreWebSample.Web.Models;
-using Microsoft.AspNetCore;
+﻿using DotNetCoreWebSample.Web.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace DotNetCoreWebSample.Web
 {
@@ -12,7 +12,7 @@ namespace DotNetCoreWebSample.Web
     {
         public static void Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
             using (var serviceScope = host.Services.CreateScope())
             {
                 try
@@ -29,8 +29,11 @@ namespace DotNetCoreWebSample.Web
             host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
