@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCoreWebSample.Web", "DotNetCoreWebSample.Web\DotNetCoreWebSample.Web.csproj", "{B5C48E15-056C-4AD9-AA67-22497433175D}"
 EndProject
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "DotNetCoreWebSample.Template", "DotNetCoreWebSample.Template\DotNetCoreWebSample.Template.deployproj", "{66D17B1D-896E-41A1-BD59-36A20BBC3E4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCoreWebSample.Web.Test", "DotNetCoreWebSample.Web.Test\DotNetCoreWebSample.Web.Test.csproj", "{0C0DE883-2421-4D9A-90C1-63ADCE87D0F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{66D17B1D-896E-41A1-BD59-36A20BBC3E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66D17B1D-896E-41A1-BD59-36A20BBC3E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66D17B1D-896E-41A1-BD59-36A20BBC3E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C0DE883-2421-4D9A-90C1-63ADCE87D0F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C0DE883-2421-4D9A-90C1-63ADCE87D0F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C0DE883-2421-4D9A-90C1-63ADCE87D0F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C0DE883-2421-4D9A-90C1-63ADCE87D0F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

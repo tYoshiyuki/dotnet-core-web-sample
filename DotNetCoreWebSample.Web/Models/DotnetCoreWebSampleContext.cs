@@ -6,6 +6,9 @@ namespace DotNetCoreWebSample.Web.Models
     {
         public DotnetCoreWebSampleContext(DbContextOptions<DotnetCoreWebSampleContext> options) : base(options) { }
 
+        public DotnetCoreWebSampleContext()
+        { }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Sessions>(entity =>
@@ -21,8 +24,8 @@ namespace DotNetCoreWebSample.Web.Models
             });
         }
 
-        public DbSet<Sessions> Sessions { get; set; }
+        public virtual DbSet<Sessions> Sessions { get; set; }
 
-        public DbSet<Todo> Todo { get; set; }
+        public virtual DbSet<Todo> Todo { get; set; }
     }
 }
