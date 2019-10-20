@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DotNetCoreWebSample.Web\DotNetCoreWebSample.Web.csproj" />
   </ItemGroup>
 
