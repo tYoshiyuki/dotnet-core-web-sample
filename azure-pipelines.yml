@@ -23,7 +23,7 @@ steps:
   inputs:
     command: test
     projects: DotNetCoreWebSample.Web.Test/DotNetCoreWebSample.Web.Test.csproj
-    arguments: -c $(BuildConfiguration) --settings $(System.DefaultWorkingDirectory)/CodeCoverage.runsettings --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true
+    arguments: -c $(BuildConfiguration) --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true
   displayName: Run Tests
 
 - task: DotNetCoreCLI@2
