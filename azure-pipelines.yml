@@ -20,11 +20,10 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 
 - script: |
-    mkdir $(Build.SourcesDirectory)\results
-    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\results DotNetCoreWebSample.Web.Test
-    dir $(Build.SourcesDirectory)\results
+    dotnet test --logger trx --logger "xunit;LogFileName=TestResults.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\ DotNetCoreWebSample.Web.Test
+    dir $(Build.SourcesDirectory)\TestResults\Coverage
     dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.3.5
-    .\reportgenerator "-reports:$(Build.SourcesDirectory)\results\coverage.cobertura.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
+    .\reportgenerator "-reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml" "-targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports" "-reporttypes:HTMLInline;HTMLChart"
   displayName: 'unit test'
 
 - task: PublishTestResults@2
@@ -34,8 +33,8 @@ steps:
 
 - task: PublishCodeCoverageResults@1
   inputs:
-    summaryFileLocation: $(Build.SourcesDirectory)\results\coverage.cobertura.xml
-    reportDirectory: $(Build.SourcesDirectory)\results
+    summaryFileLocation: $(Build.SourcesDirectory)\TestResults\Coverage\**\coverage.cobertura.xml
+    reportDirectory: $(Build.SourcesDirectory)\TestResults\Coverage\Reports
     codecoverageTool: cobertura
 
 - task: DotNetCoreCLI@2
