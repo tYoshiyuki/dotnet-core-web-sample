@@ -19,23 +19,28 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-- script: |
-    dotnet test --logger trx --logger "xunit;LogFileName=TestResults.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\ DotNetCoreWebSample.Web.Test
-    dir $(Build.SourcesDirectory)\TestResults\Coverage
-    dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.3.5
-    .\reportgenerator "-reports:$(Build.SourcesDirectory)\TestResults\Coverage\coverage.cobertura.xml" "-targetdir:$(Build.SourcesDirectory)\TestResults\Coverage\Reports" "-reporttypes:HTMLInline;HTMLChart"
-  displayName: 'unit test'
-
-- task: PublishTestResults@2
+- task: DotNetCoreCLI@2
   inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+    command: test
+    projects: DotNetCoreWebSample.Web.Test/DotNetCoreWebSample.Web.Test.csproj
+    arguments: -c $(BuildConfiguration) --settings $(System.DefaultWorkingDirectory)/CodeCoverage.runsettings --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true
+  displayName: Run Tests
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: custom
+    custom: tool
+    arguments: install --tool-path . dotnet-reportgenerator-globaltool
+  displayName: Install ReportGenerator tool
+  
+- script: reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"
+  displayName: Create reports
+  
 - task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
   inputs:
-    summaryFileLocation: $(Build.SourcesDirectory)\TestResults\Coverage\**\coverage.cobertura.xml
-    reportDirectory: $(Build.SourcesDirectory)\TestResults\Coverage\Reports
-    codecoverageTool: cobertura
+    codeCoverageTool: Cobertura
+    summaryFileLocation: $(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml  
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish $(buildConfiguration)'
