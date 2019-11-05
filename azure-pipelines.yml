@@ -21,12 +21,10 @@ steps:
 
 - script: |
     mkdir $(Build.SourcesDirectory)\results
-    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  DotNetCoreWebSample.Web.Test
-    copy $(Build.SourcesDirectory)\DotNetCoreWebSample.Web.Test\coverage.cobertura.xml $(Build.SourcesDirectory)\results
-    dir $(Build.SourcesDirectory)
+    dotnet test --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)\results DotNetCoreWebSample.Web.Test
     dir $(Build.SourcesDirectory)\results
     dotnet tool install dotnet-reportgenerator-globaltool --tool-path . --version 4.3.5
-    .\reportgenerator "-reports:$(Build.SourcesDirectory)\DotNetCoreWebSample.Web.Test\coverage.cobertura.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
+    .\reportgenerator "-reports:$(Build.SourcesDirectory)\results\coverage.cobertura.xml" "-targetdir:results" "-reporttypes:HTMLInline;HTMLChart"
   displayName: 'unit test'
 
 - task: PublishTestResults@2
