@@ -20,11 +20,11 @@ steps:
     version: 3.1.100
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- script: dotnet restore
-  displayName: 'dotnet restore DotNetCoreWebSample.sln'
+- script: dotnet restore DotNetCoreWebSample.sln
+  displayName: 'dotnet restore'
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build DotNetCoreWebSample.sln $(buildConfiguration)'
+- script: dotnet build DotNetCoreWebSample.sln --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   inputs:
