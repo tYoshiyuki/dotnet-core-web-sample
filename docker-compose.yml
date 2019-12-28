@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  dotnetcorewebsample.web:
+    image: ${DOCKER_REGISTRY-}dotnetcorewebsampleweb
+    build:
+      context: .
+      dockerfile: DotNetCoreWebSample.Web/Dockerfile
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlexpress;Database=master;User ID=sa;Password=P@ssw0rd;initial catalog=dotnetcorewebsample;MultipleActiveResultSets=True;App=EntityFramework;"
+    links:
+      - sqlexpress
+
+  sqlexpress:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      MSSQL_PID: "Express"
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "P@ssw0rd"
+    ports:
+      - 1433:1433
