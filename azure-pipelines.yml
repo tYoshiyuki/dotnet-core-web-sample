@@ -21,7 +21,7 @@ steps:
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - script: dotnet restore
-  displayName: 'dotnet restore'
+  displayName: 'dotnet restore DotNetCoreWebSample.sln'
 
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build DotNetCoreWebSample.sln $(buildConfiguration)'
