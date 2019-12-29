@@ -7,7 +7,7 @@ http {
     sendfile on;
 
     upstream web-app {
-        server app:5000;
+        server {{ var "BACKEND_HOST" | default "localhost:5000" }};
     }
 
     server {

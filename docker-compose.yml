@@ -28,6 +28,8 @@ services:
   web:
     build:
       context: ./docker/nginx
+    environment:
+      BACKEND_HOST: "app:5000"  
     ports: 
       - 80:80
     restart: always

@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dotnet-core-web-sample
+spec:
+  rules:
+  - host: dotnetcorewebsample.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dotnet-core-web-sample
+          servicePort: 80
+
+  
