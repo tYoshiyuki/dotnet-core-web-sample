@@ -2,15 +2,15 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+# EXPOSE 80
+# EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["DotNetCoreWebSample.Web/DotNetCoreWebSample.Web.csproj", "DotNetCoreWebSample.Web/"]
-RUN dotnet restore "DotNetCoreWebSample.Web/DotNetCoreWebSample.Web.csproj"
+COPY ["DotNetCoreWebSample.Web.csproj", "./"]
+RUN dotnet restore "DotNetCoreWebSample.Web.csproj"
 COPY . .
-WORKDIR "/src/DotNetCoreWebSample.Web"
+WORKDIR "/src/."
 RUN dotnet build "DotNetCoreWebSample.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -19,4 +19,5 @@ RUN dotnet publish "DotNetCoreWebSample.Web.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV ASPNETCORE_URLS http://*:5000
 ENTRYPOINT ["dotnet", "DotNetCoreWebSample.Web.dll"]

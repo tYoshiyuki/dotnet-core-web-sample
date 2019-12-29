@@ -9,8 +9,6 @@ Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "DotNetCoreWebSample.Templat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCoreWebSample.Web.Test", "DotNetCoreWebSample.Web.Test\DotNetCoreWebSample.Web.Test.csproj", "{0C0DE883-2421-4D9A-90C1-63ADCE87D0F2}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D1220356-801D-45CC-BBF4-BA5018B6C526}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
