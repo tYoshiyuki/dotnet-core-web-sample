@@ -30,7 +30,7 @@ steps:
   inputs:
     command: test
     projects: DotNetCoreWebSample.Web.Test/DotNetCoreWebSample.Web.Test.csproj
-    arguments: -c $(BuildConfiguration) --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true
+    arguments: -c $(BuildConfiguration) --logger "trx;logfilename=$(Build.DefinitionName)_$(Build.BuildNumber)_$(Build.BuildId).trx" --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true
     testRunTitle: $(Build.DefinitionName)_$(Build.BuildNumber)_$(Build.BuildId)
   displayName: 'Run tests'
 
