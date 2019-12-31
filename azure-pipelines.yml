@@ -49,6 +49,12 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: $(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml  
 
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'XUnit'
+    testResultsFiles: '**/*.trx'
+    testRunTitle: '$(Build.DefinitionName)_$(Build.BuildNumber)_$(Build.BuildId)'
+
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish $(buildConfiguration)'
   inputs:
