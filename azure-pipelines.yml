@@ -54,6 +54,7 @@ steps:
   inputs:
     testResultsFormat: 'XUnit'
     testResultsFiles: '$(Agent.TempDirectory)/**/*.trx'
+    testRunTitle: $(Build.DefinitionName)_$(Build.BuildNumber)_$(Build.BuildId)
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish $(buildConfiguration)'
