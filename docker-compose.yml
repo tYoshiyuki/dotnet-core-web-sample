@@ -9,10 +9,8 @@ services:
       ConnectionStrings__DefaultConnection: "Server=sqlexpress;Database=master;User ID=sa;Password=P@ssw0rd;initial catalog=dotnetcorewebsample;MultipleActiveResultSets=True;App=EntityFramework;"
     expose:
       - 5000
-    restart: always
-    links:
+    depends_on:
       - sqlexpress
-      - web
 
   sqlexpress:
     build:
@@ -32,4 +30,3 @@ services:
       BACKEND_HOST: "app:5000"  
     ports: 
       - 80:80
-    restart: always
