@@ -13,13 +13,6 @@ variables:
   buildConfiguration: 'Debug'
 
 steps:
-- task: UseDotNet@2
-  displayName: 'Use .NET Core sdk 3.1.100'
-  inputs:
-    packageType: sdk
-    version: 3.1.100
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-
 - script: dotnet restore DotNetCoreWebSample.sln
   displayName: 'Run dotnet restore'
 
