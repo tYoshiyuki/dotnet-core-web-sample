@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,7 +51,7 @@ namespace DotNetCoreWebSample.Web
             services.AddTransient<IToDoService, ToDoService>();
             services.AddTransient<ITodoRepository, TodoRepository>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options => options.ModelBinderProviders.RemoveType<DateTimeModelBinderProvider>());
             services.AddRazorPages();
         }
 

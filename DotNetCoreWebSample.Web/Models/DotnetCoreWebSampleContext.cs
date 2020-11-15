@@ -14,7 +14,7 @@ namespace DotNetCoreWebSample.Web.Models
             modelBuilder.Entity<Sessions>(entity =>
             {
                 entity.HasIndex(e => e.ExpiresAtTime)
-                    .HasName("Index_ExpiresAtTime");
+                    .HasDatabaseName("Index_ExpiresAtTime");
 
                 entity.Property(e => e.Id)
                     .HasMaxLength(449)
