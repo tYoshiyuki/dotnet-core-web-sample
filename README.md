@@ -2,7 +2,7 @@
 ASP.NET Coreのサンプル
 
 ## Feature
-- .NET5
+- .NET6
 - ASP.NET Core
 
 ## Deploy
