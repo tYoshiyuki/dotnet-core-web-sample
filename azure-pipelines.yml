@@ -14,10 +14,10 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET5 sdk'
+  displayName: 'Use .NET6 sdk'
   inputs:
     packageType: sdk
-    version: 5.0.100
+    version: 6.0.1
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - script: dotnet restore DotNetCoreWebSample.sln
