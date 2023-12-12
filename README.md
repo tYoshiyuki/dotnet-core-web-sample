@@ -2,7 +2,7 @@
 ASP.NET Coreのサンプル
 
 ## Feature
-- .NET6
+- .NET8
 - ASP.NET Core
 
 ## Deploy
