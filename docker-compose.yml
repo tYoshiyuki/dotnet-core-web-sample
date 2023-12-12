@@ -6,7 +6,8 @@ services:
       context: ./DotNetCoreWebSample.Web
       dockerfile: Dockerfile
     environment:
-      ConnectionStrings__DefaultConnection: "Server=sqlexpress;Database=master;User ID=sa;Password=P@ssw0rd;initial catalog=dotnetcorewebsample;MultipleActiveResultSets=True;App=EntityFramework;"
+      ConnectionStrings__DefaultConnection: "Server=sqlexpress;Database=master;User ID=sa;Password=P@ssw0rd;initial catalog=dotnetcorewebsample;MultipleActiveResultSets=True;App=EntityFramework;TrustServerCertificate=True;"
+      ASPNETCORE_ENVIRONMENT: "Development"
     expose:
       - 5000
     depends_on:
