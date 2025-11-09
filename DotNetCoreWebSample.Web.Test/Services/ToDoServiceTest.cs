@@ -129,7 +129,7 @@ namespace DotNetCoreWebSample.Web.Test.Services
                 .ReturnsAsync(1);
 
             // Act
-            var result = await _service.Create(newTodo);
+            int result = await _service.Create(newTodo);
 
             // Assert
             _mock.Verify(x => x.Add(It.Is<Todo>(t => t.Id == newTodo.Id 
@@ -192,7 +192,7 @@ namespace DotNetCoreWebSample.Web.Test.Services
                 .ReturnsAsync(1);
 
             // Act
-            var result = await _service.Edit(todo);
+            int result = await _service.Edit(todo);
 
             // Assert
             _mock.Verify(x => x.Update(It.Is<Todo>(t => t.Id == todo.Id 
@@ -255,7 +255,7 @@ namespace DotNetCoreWebSample.Web.Test.Services
                 .ReturnsAsync(1);
 
             // Act
-            var result = await _service.Delete(todo);
+            int result = await _service.Delete(todo);
 
             // Assert
             _mock.Verify(x => x.Remove(It.Is<Todo>(t => t.Id == todo.Id 
@@ -316,7 +316,7 @@ namespace DotNetCoreWebSample.Web.Test.Services
             const int existsId = 1;
 
             // Act
-            var result = _service.Exists(existsId);
+            bool result = _service.Exists(existsId);
 
             // Assert
             _mock.Verify(x => x.Find(It.Is<object[]>(arr => arr.Length == 1 && (int)arr[0] == existsId)), Times.Once());
@@ -330,7 +330,7 @@ namespace DotNetCoreWebSample.Web.Test.Services
             const int notExistsId = 999;
 
             // Act
-            var result = _service.Exists(notExistsId);
+            bool result = _service.Exists(notExistsId);
 
             // Assert
             _mock.Verify(x => x.Find(It.Is<object[]>(arr => arr.Length == 1 && (int)arr[0] == notExistsId)), Times.Once());
@@ -346,7 +346,7 @@ namespace DotNetCoreWebSample.Web.Test.Services
                 .Returns((Todo)null);
 
             // Act
-            var result = _service.Exists(negativeId);
+            bool result = _service.Exists(negativeId);
 
             // Assert
             _mock.Verify(x => x.Find(It.Is<object[]>(arr => arr.Length == 1 && (int)arr[0] == negativeId)), Times.Once());
@@ -362,7 +362,7 @@ namespace DotNetCoreWebSample.Web.Test.Services
                 .Returns((Todo)null);
 
             // Act
-            var result = _service.Exists(zeroId);
+            bool result = _service.Exists(zeroId);
 
             // Assert
             _mock.Verify(x => x.Find(It.Is<object[]>(arr => arr.Length == 1 && (int)arr[0] == zeroId)), Times.Once());
